@@ -1,0 +1,1 @@
+emit(doc._id);
