@@ -21,10 +21,10 @@ var formats = {
 }
 
 module.exports = function(config) {
-  if (config) config = config;
+  if (config) this.config = config;
   
   db = new(cradle.Connection)(config.url).database(config.database);
-  fs.readdir(process.cwd() + '/' + config.root, function(err, files) { handle([], null, files, function() { Object.keys(docs).map(function(k){ fire(docs[k]); }); }); } );
+  fs.readdir(config.cwd + '/' + config.root, function(err, files) { handle([], null, files, function() { Object.keys(docs).map(function(k){ fire(docs[k]); }); }); } );
 }
 
 // Finds and cooks potatoes
@@ -32,7 +32,7 @@ function handle(depth, err, files, callback) {
   if (err) return console.log(err);
 
   var each = function(file, next) {
-    var location = process.cwd() + '/' + config.root + '/' + depth.join('/') + '/' + file;
+    var location = config.cwd + '/' + config.root + '/' + depth.join('/') + '/' + file;
     var stat = fs.statSync(location);
     var token;
 

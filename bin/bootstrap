@@ -14,4 +14,7 @@ else
     url: args[1],
     root: args[0]
   }
-//require('../index.js')(config)
+
+config.cwd = process.cwd();
+
+require('../index.js')(config)
