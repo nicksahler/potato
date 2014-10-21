@@ -1,0 +1,17 @@
+#!/usr/bin/env node
+
+console.log('loaded!');
+var args = process.argv.slice(2);
+var config;
+console.log(args, process.cwd());
+
+if (args.length === 1)
+  config = require(process.cwd() + '\\' + args[0])
+else
+  config = {
+    function_signatures: args[3],
+    database: args[2],
+    url: args[1],
+    root: args[0]
+  }
+//require('../index.js')(config)

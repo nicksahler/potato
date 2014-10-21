@@ -1,0 +1,6 @@
+{
+  "function_signatures": true,
+  "database": "civl",
+  "url": "http://localhost:5984",
+  "root": "./example"
+}

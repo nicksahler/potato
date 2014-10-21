@@ -5,10 +5,10 @@ var async = require('async');
 var cradle = require('cradle');
 var colors = require('colors');
 
-var root = './example';
+var config;
+var db;
 var docs = {};
 // TODO: Options.
-var db = new(cradle.Connection)('http://localhost:5984').database('civl');
 
 var extensions = {
   'js': 'javascript',
@@ -20,19 +20,19 @@ var formats = {
   'reduce': 'function(keys, values){\n{{body}}\n}'
 }
 
-var settings = {
-  function_signatures: true,
-  database: 'civl'
+module.exports = function(config) {
+  if (config) config = config;
+  
+  db = new(cradle.Connection)(config.url).database(config.database);
+  fs.readdir(process.cwd() + '/' + config.root, function(err, files) { handle([], null, files, function() { Object.keys(docs).map(function(k){ fire(docs[k]); }); }); } );
 }
-
-fs.readdir(root, function(err, files) { handle([], null, files, function() { Object.keys(docs).map(function(k){ fire(docs[k]); }); }); } );
 
 // Finds and cooks potatoes
 function handle(depth, err, files, callback) {
   if (err) return console.log(err);
 
   var each = function(file, next) {
-    var location = root + '/' + depth.join('/') + '/' + file;
+    var location = process.cwd() + '/' + config.root + '/' + depth.join('/') + '/' + file;
     var stat = fs.statSync(location);
     var token;
 
